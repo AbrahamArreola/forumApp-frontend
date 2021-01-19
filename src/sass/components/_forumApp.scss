@@ -1,0 +1,48 @@
+body{
+    font-family: $font;
+    .forum-app{
+        padding: 30px 0;
+        width: 100%;
+
+        .comment-board{
+            width: 65%;
+            margin: 0 auto;
+            background-color: $forum-background;
+            border: solid 1px #b3b3b3;
+            border-radius: 10px;
+            box-shadow: 10px 10px 8px #888;
+            text-align: center;
+            padding: 30px 0;
+
+            textarea{
+                width: 80%;
+                height: 100px;
+                resize: none;
+                border-radius: 5px;
+
+                &:focus{
+                    outline: none;
+                }
+            }
+
+            button{
+                width: 100px;
+                height: 30px;
+                margin-top: 15px;
+                border-radius: 5px;
+                border: none;
+                border: solid 1px #000;
+                cursor: pointer;
+                background-color: #1A73E8;
+
+                &:focus{
+                    outline: none;
+                }
+
+                &:hover{
+                    filter: brightness(1.5);
+                }
+            }
+        }
+    }
+}
