@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import axios from 'axios'
+import { useDispatch } from "react-redux";
+import { deleteComment, updateComment } from "../redux/comments";
 
-export const CommentItem = ({data, fetchComments} : any) => {
+export const CommentItem = ({data} : any) => {
 
     const [onEdit, setOnEdit] = useState(false)
     const [text, setText] = useState(data.content)
+
+    const dispatch = useDispatch()
 
     const handleEdit = () => {
         if(onEdit){
@@ -19,24 +22,13 @@ export const CommentItem = ({data, fetchComments} : any) => {
         setOnEdit(false)
     }
 
-    const updateComment = async () => {
-        try {
-            data.content = text
-            await axios.put(`http://127.0.0.1:8000/comments/update/${data._id}`, data)
-            setOnEdit(false)
-        } catch (error) {
-            console.log(error);
-        }
+    const upComment = async () => {
+        dispatch(updateComment(data, text))
+        setOnEdit(false)
     }
 
-    const deleteComment = async () => {
-        try {
-            const lol = await axios.delete(`http://127.0.0.1:8000/comments/delete/${data._id}`)
-            fetchComments(true)
-            console.log(lol);
-        } catch (error) {
-            console.log(error);
-        }
+    const delComment = async () => {
+        dispatch(deleteComment(data._id))
     }
 
     return (
@@ -48,7 +40,7 @@ export const CommentItem = ({data, fetchComments} : any) => {
                 </div>
                 <div className="comment-options">
                     <i className="fas fa-edit" onClick={handleEdit}></i>
-                    <i className="fas fa-trash" onClick={deleteComment}></i>
+                    <i className="fas fa-trash" onClick={delComment}></i>
                 </div>
             </div>
             {
@@ -56,7 +48,7 @@ export const CommentItem = ({data, fetchComments} : any) => {
                 (
                     <div className="comment-edit">
                         <textarea value={text} onChange={(e) => setText(e.target.value)}></textarea>
-                        <Button variant="primary" onClick={updateComment}>Update</Button>
+                        <Button variant="primary" onClick={upComment}>Update</Button>
                         <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
                     </div>
                 )
